@@ -2,8 +2,7 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 
 arma::mat data_gen(const arma::mat X, const arma::vec beta){
-   int n_row = X.n_rows, n_col = X.n_cols;
-   arma::mat epsilon = arma::randn(n_row, n_col);
+   arma::vec epsilon = arma::randn(X.n_rows); 
    arma::mat y = epsilon.each_col() + X * beta;
    return y;
 }
@@ -18,10 +17,9 @@ arma::vec beta_est(const arma::mat X, const arma::vec y){
 }
 
 // [[Rcpp::export()]]
-arma::mat sim_reg(const arma::mat X, const arma::vec beta, const int seed = 1234, const int n_sim = 10000){
+arma::mat sim_reg(const arma::mat X, const arma::vec beta, const int seed = 7, const int n_sim = 1e4){
    arma::arma_rng::set_seed(seed);
-   arma::mat betas(X.ncols, n_sim);
-   arma::mat y = data_gen(X, beta);
+   arma::mat betas(X.n_cols, n_sim), y = data_gen(X, beta);
    for(int i = 0; i < n_sim; i++){
       betas.col(i) = beta_est(X, y);
    }

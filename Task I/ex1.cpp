@@ -1,4 +1,5 @@
 #include <RcppArmadillo>
+// [[Rcpp::depends(RcppArmadillo)]]
 
 // a
 //[[Rcpp::export()]]
@@ -8,14 +9,14 @@ arma::vec sum_cpp(const arma::vec X, const arma::vec Y){
 
 // b
 //[[Rcpp::export()]]
-double inner_prod_cpp(const arma::vec X, const arma::vec Y){
+arma::mat inner_prod_cpp(const arma::vec X, const arma::vec Y){
    return X.t() * Y;
 }
 
 // c
 //[[Rcpp::export()]]
 arma::mat outer_prod_cpp(const arma::vec X, const arma::vec Y){
-   return X * Y;
+   return X * Y.t();
 }
 
 // d
